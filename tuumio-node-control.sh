@@ -3,6 +3,11 @@
 # Path to docker-compose file
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
+PATH=/usr/local/bin:/usr/bin:/bin
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+DOCKER_COMPOSE_BINARY=$(which docker-compose)
+
+
 # Logging function
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -10,19 +15,21 @@ log() {
 
 # Start the service
 start() {
-    log "Starting service"
-    docker-compose -f "$DOCKER_COMPOSE_FILE" up -d
+    log "Starting service $SCRIPT_DIR/$DOCKER_COMPOSE_FILE"
+    $DOCKER_COMPOSE_BINARY -f "$SCRIPT_DIR/$DOCKER_COMPOSE_FILE" up -d
 }
 
 # Stop the service
 stop() {
-    log "Stopping service"
-    docker-compose -f "$DOCKER_COMPOSE_FILE" down
+    log "Stopping service $SCRIPT_DIR/$DOCKER_COMPOSE_FILE"
+    $DOCKER_COMPOSE_BINARY -f "$SCRIPT_DIR/$DOCKER_COMPOSE_FILE" down
 }
 
 # Check service status
 status() {
-    docker-compose -f "$DOCKER_COMPOSE_FILE" ps | grep -q "Up"
+    log "Script directory: $SCRIPT_DIR"
+    log "Docker compose binary: $DOCKER_COMPOSE_BINARY"
+    $DOCKER_COMPOSE_BINARY -f "$SCRIPT_DIR/$DOCKER_COMPOSE_FILE" ps | grep -q "Up"
     return $?
 }
 
