@@ -2,11 +2,11 @@
 
 # Configuration
 SERVICE_NAME="whoami"
-LOCAL_REPO_PATH="$HOME/.tuumio"
+LOCAL_REPO_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 REMOTE_REPO_URL="https://github.com/timbe-sc/sc-node.git"
 REMOTE_BRANCH="main"
 CONTROL_SCRIPT="tuumio-node-control.sh"
-LOG_FILE="$HOME/.tuumio/manager.log"
+LOG_FILE="$LOCAL_REPO_PATH/manager.log"
 
 # Logging function
 log() {
