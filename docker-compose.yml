@@ -1,5 +1,26 @@
-version: '3'
+version: '3.8'
 
 services:
-  whoami:
-    image: traefik/whoami
+  user-node:
+    env_file: ".env"
+    image: solvecare2017/generic-node:latest
+    container_name: tuumio-node
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./volume:/root
+    environment:
+      - NODE_SC_ADDRESS=${NODE_SC_ADDRESS}
+      - NODE_ID=${NODE_ID}
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 2G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
+
+volumes:
+  user-node-data:
+    driver: local
